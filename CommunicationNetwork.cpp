@@ -1,6 +1,8 @@
 #include "CommunicationNetwork.h"
 #include <iostream>
 #include <fstream>
+#include <stdlib.h>
+#include <sstream>
 
 using namespace std;
 
@@ -61,13 +63,21 @@ void CommunicationNetwork::deleteCity(string cityNameIn){
             head = head->next;
             head->previous = NULL;
             delete delCity;
-        }else{
+        }
+        else if (searchCity->next == NULL){
+            delCity = searchCity;
+            searchCity = searchCity->previous;
+            searchCity -> next = delCity->next;
+            delete delCity;
+        }
+        else{
             searchCity->previous->next = searchCity->next;
             searchCity->next->previous = searchCity->previous;
             delete searchCity;
         }
+
     }else{
-        cout<<cityNameIn<<"not found"<<endl;
+        cout<<cityNameIn<<" not found"<<endl;
     }
 
 }
@@ -98,11 +108,11 @@ void CommunicationNetwork::buildNetwork(){
     City *currentCity;
     for(int i = 0; i < numCities; i++){
         if(head == NULL){
-            cityAdded = new City(cityArray[i], NULL, NULL, "", 0);
+            cityAdded = new City(cityArray[i], NULL, NULL, "NULL", 0);
             currentCity = cityAdded;
             head = currentCity;
         }else{
-            cityAdded = new City(cityArray[i], NULL, currentCity, "", 0);
+            cityAdded = new City(cityArray[i], NULL, currentCity, "NULL", 0);
             currentCity->next = cityAdded;
             currentCity = cityAdded;
 
@@ -110,39 +120,39 @@ void CommunicationNetwork::buildNetwork(){
     }
     tail = currentCity;
 }
-void CommunicationNetwork::transmitMsg(char *filename){
+
+void CommunicationNetwork::transmitMsg(string message){
 //filename is argument to function
 //start at head of list and set message for first node to word read from file
-
-    ifstream inStream; // stream for reading in file
-    inStream.open(filename);
-    string msg;
+    stringstream ss(message);
+    string word;
     if(head == NULL){
         cout<<"Empty list"<<endl;
         return;
     }
     City *sender = head;
     // read through every line , transmit message
-    while (inStream>>msg)
+    //for(int i = 0; i<str.length(); i++)
+    while(ss>>word)
     {
-        sender->message = msg;
+        sender->message = word;
         //sender->counter = sender->counter + 1;
         cout<<sender->cityName<<" received "<<sender->message<<endl;
         while(sender->next != NULL){
-            sender->next->message = msg;
+            sender->next->message = word;
             cout<<sender->next->cityName<<" received "<<sender->next->message<<endl;
             sender->message = "";
         sender->counter = sender->counter + 1;
-        cout<<sender->cityName<< ": "<<sender->counter;
+        //cout<<sender->cityName<< ": "<<sender->counter;
             sender = sender->next;
         }
         sender->counter = sender->counter + 1;
-        cout<<sender->cityName<< ": "<<sender->counter;
+        //cout<<sender->cityName<< ": "<<sender->counter;
         //Rhonda: back the other direction starting here
         sender = tail;
 
         while(sender->previous != NULL){
-            sender->previous->message = msg;
+            sender->previous->message = word;
             cout<<sender->previous->cityName<<" received "<<sender->previous->message<<endl;
             sender->message="";
             sender = sender->previous;
@@ -151,54 +161,113 @@ void CommunicationNetwork::transmitMsg(char *filename){
         sender = head;
     }
     // close the file
-    inStream.close();
+
 
 }
 
-void CommunicationNetwork::transmitAB(std::string cityStart, std::string cityEnd){
-ifstream inStream; // stream for reading in file
-    inStream.open("messageIn.txt");
-    string msg;
+void CommunicationNetwork::transmitAB(std::string cityStart, std::string cityEnd, std::string messageAB){
+//filename is argument to function
+//start at head of list and set message for first node to word read from file
+    stringstream ss(messageAB);
+    string word;
+    int counter1 = 0;
+    int counter2 = 0;
+   // ifstream inStream; // stream for reading in file
+   // inStream.open("messageIn.txt");
+   // string msg;
     if(head == NULL){
         cout<<"Empty list"<<endl;
         return;
     }
     City *sender = head;
-    while(sender->cityName != cityStart){
+    // read through every line , transmit message
+    while (sender->cityName != cityStart){
+        counter1++;
         sender = sender->next;
     }
-    // read through every line , transmit message
+    cout<<counter1<<endl;
 
-    while (inStream>>msg){
-        sender->message = msg;
-        //sender->counter = sender->counter + 1;
-            cout<<sender->cityName<<" received "<<sender->message<<endl;
-               while (sender->cityName != cityEnd){
-            sender->next->message = msg;
-            cout<<sender->next->cityName<<" received "<<sender->next->message<<endl;
-            sender->message = "";
+    City *starting = sender;
+   // cout<<starting->cityName<<endl;
+    sender = head;
+
+    while(sender->cityName!= cityEnd){
+        counter2++;
+        sender = sender->next;
+    }
+    cout<<counter2<<endl;
+    City *ending = sender;
+   // cout<<ending->cityName<<endl;
+    sender = starting;
+
+while (ss>>word)
+    {
+        if(counter1 < counter2){
+        while(sender != ending){
+            sender->message = word;
+            cout<<sender->cityName<< " received "<< sender->message<<endl;
             sender->counter = sender->counter + 1;
-            //cout<<sender->cityName<< ": "<<sender->counter;
             sender = sender->next;
         }
-        sender->message = msg;
         sender->counter = sender->counter + 1;
-        cout<<sender->cityName<<" received "<<sender->message<<endl;
-        //Rhonda: back the other direction starting here
+        sender->message = word;
+        cout<<sender->cityName<< " received "<< sender->message<<endl;
+        //cout<<sender->cityName<< " received "<< sender->message<<endl;
+        sender = sender->previous;
 
-
-        while(sender->previous->cityName != cityStart){
-            sender->previous->message = msg;
-            cout<<sender->previous->cityName<<" received "<<sender->previous->message<<endl;
-            sender->message="";
+        while(sender != starting){
+            sender->message = word;
+            cout<<sender->cityName<< " received "<< sender->message<<endl;
             sender = sender->previous;
         }
-        sender->message = msg;
-        cout<<sender->cityName<<" received "<<sender->message<<endl;
-    }
-    // close the file
-    inStream.close();
+        sender->message = word;
+        cout<<sender->cityName<< " received "<< sender->message<<endl;
+        }
+        else{
+            while(sender != ending){
+            sender->message = word;
+            sender->counter = sender->counter + 1;
+            cout<<sender->cityName<< " received "<< sender->message<<endl;
+            sender = sender->previous;
+
+        }
+        sender->counter = sender->counter + 1;
+        sender->message = word;
+        cout<<sender->cityName<< " received "<< sender->message<<endl;
+       // cout<<sender->cityName<< " received "<< sender->message<<endl;
+        sender = sender->next;
+
+        while(sender != starting){
+            sender->message = word;
+            cout<<sender->cityName<< " received "<< sender->message<<endl;
+            sender = sender->next;
+        }
+        sender->message = word;
+        cout<<sender->cityName<< " received "<< sender->message<<endl;
+        }
 }
+}
+
+void CommunicationNetwork::cityDistance(std::string city1, std::string city2){
+    int index1 = 0;
+    int index2 = 0;
+    City *tmp = head;
+    while (tmp->cityName != city1){
+        index1++;
+        tmp = tmp->next;
+    }
+    //cout<<"printing: "<<index1<<endl;
+    tmp = head;
+
+    while (tmp->cityName != city2){
+        index2++;
+        tmp = tmp->next;
+    }
+    //cout<<"printing: "<<index2<<endl;
+    int distance =  abs(index1-index2);
+    cout<<"There are " << distance << " cities from "<< city1 << " to " << city2<<"."<<endl<<endl;
+}
+
 
 void CommunicationNetwork::countMessages(){
     City *sender = head;
@@ -234,6 +303,24 @@ void CommunicationNetwork::printNetwork(){
     }
 
     cout << "==================" << endl;
-
 }
 
+void CommunicationNetwork::deleteMessage(){
+
+
+    City *current = head;
+    //cout<<current->message<<endl;
+    while (current->message == "NULL"){
+            //cout<<current->message<<endl;
+        current = current->next;
+    }
+
+    while(current->next != NULL){
+        current->message = "NULL";
+        //cout<<current->message<<endl;
+        current = current->next;
+
+    }
+    cout<<"Message has been deleted"<<endl;
+    
+}
