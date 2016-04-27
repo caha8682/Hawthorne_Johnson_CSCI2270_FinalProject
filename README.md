@@ -1,5 +1,5 @@
 # Hawthorne_Johnson_CSCI2270_FinalProject
-This project team consists of Cassidy Hawthorne and Abby Johnson. The project will use the data structure of linked lists and will be based off of homework 4 with 5 added functions. 
+This project team consists of Cassidy Hawthorne and Abby Johnson. The project will use the data structure of linked lists and will be based off of homework 4 with 5 added functions. The project can be run through Code Blocks.
 
 To run this project download main.cpp, CommunicationNetwork.h, and CommunicationNetwork.cpp. These functions must be run together. CommunicationNetwork.h is the header file and CommunicationNetwork.cpp is the corresponding code for the functions in the header.  When this project is run a menu pops up with 11 options:
 1. Build Network
