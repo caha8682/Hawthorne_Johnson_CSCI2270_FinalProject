@@ -28,12 +28,14 @@ class CommunicationNetwork
         ~CommunicationNetwork();
         void addCity(std::string, std::string);
         void buildNetwork();
-        void transmitMsg(char *); //this is like a string
+        void transmitMsg(std::string); //this is like a string
         void printNetwork();
         void deleteCity(std::string);
         void deleteNetwork();
         void countMessages();
-        void transmitAB(std::string, std::string);
+        void transmitAB(std::string, std::string, std::string);
+        void deleteMessage();
+        void cityDistance(std::string, std::string);
     protected:
     private:
         City *head;
