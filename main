@@ -1,6 +1,14 @@
+// ==========================================
+// Filename: Assignment3Solution.cpp
+// Author: Matt Bubernak and Rhonda Hoenigman
+// Date: 1/29/2015, 1/31/2016
+// Description: Linked List Fun
+// ==========================================
+
 #include <iostream>
 #include <fstream>
 #include <stdlib.h>
+#include <sstream>
 #include "CommunicationNetwork.h"
 
 using namespace std;
@@ -28,8 +36,11 @@ int main(int argc, char* argv[])
         string cityPrevious;
         string message;
         string city1;
+        string city2;
         string cityStar;
         string cityEn;
+        string messageIn;
+        string messageAB;
 
         //clear out cin
         cin.clear();
@@ -55,7 +66,9 @@ int main(int argc, char* argv[])
                 //using transmitMsg function to pass between two cities
                 //when message reaches the last city, read next word from file and repeat
                 //all of this should happen in the transmitMsg function
-                cn.transmitMsg("messageIn.txt");
+                cout<<"Message: "<<endl;
+                getline(cin, messageIn);
+                cn.transmitMsg(messageIn);
 
                 //transmitMsg(head);
                 break;
@@ -67,8 +80,9 @@ int main(int argc, char* argv[])
                 getline(cin,cityStar);
                 cout << "Enter final city: " << endl;
                 getline(cin,cityEn);
-
-            cn.transmitAB(cityStar,cityEn);
+                cout<<"Message: "<<endl;
+                getline(cin, messageAB);
+            cn.transmitAB(cityStar,cityEn, messageAB);
             break;
 
             case 5:
@@ -77,6 +91,7 @@ int main(int argc, char* argv[])
 
             case 6:
                 //delete message
+                cn.deleteMessage();
                 break;
 
             case 7:
@@ -98,7 +113,17 @@ int main(int argc, char* argv[])
 
             //distance between cities
             case 9:
-        break;
+
+                cout << "Enter first city " << endl;
+                getline(cin,city1);
+                cout << "Enter second city: " << endl;
+                getline(cin,city2);
+                cn.cityDistance(city1,city2);
+            break;
+
+
+
+
             // delete network
             case 10:
 
@@ -126,87 +151,6 @@ int main(int argc, char* argv[])
 
 }
 
-/* Add a new city to the network between the city *previous and the city that follows it
-in the network. The name of the new city is in the argument cityName. Return the head of
-the linked list */
-// NOTE: If node is not found, this will return NULL.
-/*This function deletes all cities in the network starting at the head city. The function
-should return the hnext pointer of the last city deleted, which should be the tail of the
-linked list. The next pointer should be NULL*/
-/*
-city *deleteEntireNetwork(city * head)
-{
-    // return NULL if empty list
-    if (head == NULL)
-        return NULL;
-
-    // tmp is used for deleting nodes
-    city * tmp;
-
-    // go through every node
-    while (head != NULL)
-    {
-        // store the node
-        tmp = head;
-        // move to next node
-        head = head->next;
-        // delete the stored node
-        delete tmp;
-    }
-    // return head, which should be NULL
-    return head;
-}
-
-/* pass the specified message between the sender and receiver cities. Call transmitMsg
-each time you sedn the word to the next city. Transmitting the message means that only
-one city can hold the message / word at one time. As soon as the message is transmitted
-to the reciever city, the message should be removed from the sender city. */
-
-
-
-/* delete the city in the network with the specified name. Return the head of the linked
-list */
-/*
-city * deleteCity(city * head, string cityName)
-{
-    // locate the city we need to delete
-    city * delCity = searchNetwork(head,cityName);
-
-    // if the city dosn't exist, nothing we can do.
-    if (delCity == NULL)
-        cout << "City does not exist." << endl;
-
-    // If the head is the one we need to delete
-    else if (delCity == head)
-    {
-        head = head->next;
-        delete delCity;
-    }
-
-    // If it's not the head, but exists, start searching.
-    else
-    {
-        city * tmp = head;
-        // loop until the node before the city we want to delete
-        while (tmp->next != delCity)
-        {
-            tmp = tmp->next;
-        }
-
-        // move the pointer behind the city we want to delete to the next node
-        tmp->next = tmp->next->next;
-
-        // delete the city
-        delete delCity;
-    }
-
-    return head;
-}
-*/
-
-
-
-
 /*displays a menu with options: add city, delete city, transmit coast-coast,
 clear network, quit*/
 void displayMenu()
@@ -216,7 +160,7 @@ void displayMenu()
     cout << "2. Print Network Path" << endl;
     cout << "3. Transmit Message Coast-To-Coast-To-Coast" << endl;
     cout << "4. Transmit Message from City A to City B" << endl;
-    cout << "5. Number of Words Transmitted" << endl;
+    cout << "5. Total Number of Words Transmitted" << endl;
     cout << "6. Delete Message" << endl;
     cout << "7. Add City" << endl;
     cout << "8. Delete City" << endl;
