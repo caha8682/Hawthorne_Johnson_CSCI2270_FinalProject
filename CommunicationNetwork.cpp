@@ -179,8 +179,37 @@ void CommunicationNetwork::transmitAB(std::string cityStart, std::string cityEnd
         cout<<"Empty list"<<endl;
         return;
     }
+
     City *sender = head;
-    // read through every line , transmit message
+
+//*==============================================*//
+//Additions Made By Karros Huang Fixing Seg Faults//
+//*==============================================*//
+
+    /*Searching to See if Start City and End City Exist City Exists*/
+    bool startFound = false;
+    bool endFound = false;
+    while(sender != NULL){
+        if(sender->cityName == cityStart){
+            startFound = true;
+        }
+        if(sender->cityName == cityEnd){
+            endFound = true;
+        }
+        sender = sender->next;
+    }
+    if(!startFound || !endFound){
+        cout<<"Cities Not Found"<<endl;
+        return;
+    }
+
+    sender = head; //reset sender back to head if the cities were found
+
+//*=====================================================*//
+//End of Additions Made By Karros Huang Fixing Seg Faults//
+//*=====================================================*//
+
+    //read through every line , transmit message
     while (sender->cityName != cityStart){
         counter1++;
         sender = sender->next;
@@ -322,5 +351,5 @@ void CommunicationNetwork::deleteMessage(){
 
     }
     cout<<"Message has been deleted"<<endl;
-    
+
 }
