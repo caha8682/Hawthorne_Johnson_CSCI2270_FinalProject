@@ -30,5 +30,11 @@ Here's how each function works.
 Add city and delete city do not show what the network looks like after adding or deleting a city. To see the new network use command 2 to print the network path.
 
 ISSUES:
-I created the network and then pressed delete message, this created a segmentation fault.
+I fixed a thing with DeleteMessage (you can see what I did it the commit)
+
+There is a reoccuring issue with a couple of your functions. So if the network is not built yet there are a couple of functions that cause a segmentation fault. I figured these are fairly big code changes so I would leave it for you becasue everyone has their own style. The functions that cause the seg fault are:
+transmitting message city to city
+delete message
+adding a city
+
 
