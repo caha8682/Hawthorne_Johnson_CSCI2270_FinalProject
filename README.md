@@ -28,3 +28,7 @@ Here's how each function works.
 11. Quit - this function takes the user out of the program and clears the network if that has not been done yet
 
 Add city and delete city do not show what the network looks like after adding or deleting a city. To see the new network use command 2 to print the network path.
+
+ISSUES:
+I created the network and then pressed delete message, this created a segmentation fault.
+
