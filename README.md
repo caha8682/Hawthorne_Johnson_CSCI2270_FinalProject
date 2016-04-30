@@ -32,9 +32,10 @@ Add city and delete city do not show what the network looks like after adding or
 ISSUES:
 I fixed a thing with DeleteMessage (you can see what I did it the commit)
 
-There is a reoccuring issue with a couple of your functions. So if the network is not built yet there are a couple of functions that cause a segmentation fault. I figured these are fairly big code changes so I would leave it for you becasue everyone has their own style. The functions that cause the seg fault are:
-transmitting message city to city
-delete message
-adding a city
+There is a reoccuring issue with a couple of your functions. So if the network is not built yet there are a couple of functions that cause a segmentation fault. I figured these are fairly big code changes so I would leave it for you becasue everyone has their own style and I have no desire to step on anyone's toes or do something they wouldn't want done to their code. The functions that cause the seg fault are:
+transmitting message city to city,
+delete message,
+adding a city. 
+This seg faults could be avoiding by placing if statements within each function (or making another function to be called) that checks to see if the commmunication network is empty or not. This functionality exists in some functions but not all so perhaps it could be copied from the other function.
 
 
