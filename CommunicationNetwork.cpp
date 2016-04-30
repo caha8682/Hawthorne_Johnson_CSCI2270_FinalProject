@@ -166,6 +166,11 @@ void CommunicationNetwork::transmitMsg(string message){
 }
 
 void CommunicationNetwork::transmitAB(std::string cityStart, std::string cityEnd, std::string messageAB){
+/*
+when this function is called it transmits the message from A to B to A. Not only from A to B.
+You may want to consider changing the function or description as to not be misleading.
+*/
+
 //filename is argument to function
 //start at head of list and set message for first node to word read from file
     stringstream ss(messageAB);
