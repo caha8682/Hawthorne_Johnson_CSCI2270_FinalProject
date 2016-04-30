@@ -314,18 +314,24 @@ void CommunicationNetwork::deleteMessage(){
 
 
     City *current = head;
-    //cout<<current->message<<endl;
-    while (current->message == "NULL"){
-            //cout<<current->message<<endl;
+    bool messagedeleted = false;
+
+    while (current->message == "NULL" && current->next != NULL){
+
         current = current->next;
     }
 
     while(current->next != NULL){
         current->message = "NULL";
-        //cout<<current->message<<endl;
+        messagedeleted = true;
         current = current->next;
 
     }
-    cout<<"Message has been deleted"<<endl;
-    
+    if(messagedeleted == false){
+        cout<<"No message to be deleted"<<endl;
+    }
+    if(messagedeleted == true){
+        cout<<"Message has been deleted"<<endl;
+    }
+
 }
