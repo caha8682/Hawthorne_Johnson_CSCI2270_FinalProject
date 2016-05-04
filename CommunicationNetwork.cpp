@@ -102,6 +102,11 @@ void CommunicationNetwork::deleteNetwork(){
 void CommunicationNetwork::buildNetwork(){
 //build the network with a fixed list of cities.
 //can hard code cities in this function and add them in order
+    if(head != NULL)
+    {
+        cout << "Network already contains cities." << endl;
+        return;
+    }
     string cityArray[10] = {"Los Angeles", "Phoenix", "Denver", "Dallas", "St. Louis", "Chicago", "Atlanta", "Washington, D.C.", "New York", "Boston"};
     int numCities = 10;
     City *cityAdded;
