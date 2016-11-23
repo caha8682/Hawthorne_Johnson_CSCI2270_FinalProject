@@ -102,7 +102,9 @@ void CommunicationNetwork::deleteNetwork(){
 void CommunicationNetwork::buildNetwork(){
 //build the network with a fixed list of cities.
 //can hard code cities in this function and add them in order
-    string cityArray[10] = {"Los Angeles", "Phoenix", "Denver", "Dallas", "St. Louis", "Chicago", "Atlanta", "Washington, D.C.", "New York", "Boston"};
+
+
+   /* string cityArray[10] = {"Los Angeles", "Phoenix", "Denver", "Dallas", "St. Louis", "Chicago", "Atlanta", "Washington, D.C.", "New York", "Boston"};
     int numCities = 10;
     City *cityAdded;
     City *currentCity;
@@ -118,7 +120,34 @@ void CommunicationNetwork::buildNetwork(){
 
         }
     }
-    tail = currentCity;
+    tail = currentCity; */
+
+
+    City *Boston = new City("Boston",NULL,NULL,"NULL",0);
+    City *NewYork = new City("New York",Boston,NULL,"NULL",0);
+    City *WashingtonDC = new City("Washington, D.C.",NewYork,NULL,"NULL",0);
+    City *Atlanta = new City("Atlanta",WashingtonDC,NULL,"",0);
+    City *Chicago = new City("Chicago",Atlanta,NULL,"NULL",0);
+    City *StLouis = new City("St. Louis",Chicago,NULL,"",0);
+    City *Dallas = new City("Dallas",StLouis,NULL,"NULL",0);
+    City *Denver = new City("Denver",Dallas,NULL,"NULL",0);
+    City *Phoenix = new City("Phoenix",Denver,NULL,"NULL",0);
+    City *LosAngeles = new City("Los Angeles",Phoenix,NULL,"NULL",0);
+
+    Boston->previous = NewYork;
+    NewYork->previous = WashingtonDC;
+    WashingtonDC->previous = Atlanta;
+    Atlanta->previous = Chicago;
+    Chicago->previous = StLouis;
+    StLouis->previous = Dallas;
+    Dallas->previous = Denver;
+    Denver->previous = Phoenix;
+    Phoenix->previous = LosAngeles;
+    LosAngeles->previous = NULL;
+
+    head = LosAngeles;
+    tail = Boston;
+
 }
 
 void CommunicationNetwork::transmitMsg(string message){
@@ -185,7 +214,7 @@ void CommunicationNetwork::transmitAB(std::string cityStart, std::string cityEnd
         counter1++;
         sender = sender->next;
     }
-    cout<<counter1<<endl;
+    //cout<<counter1<<endl;
 
     City *starting = sender;
    // cout<<starting->cityName<<endl;
@@ -195,7 +224,7 @@ void CommunicationNetwork::transmitAB(std::string cityStart, std::string cityEnd
         counter2++;
         sender = sender->next;
     }
-    cout<<counter2<<endl;
+    //cout<<counter2<<endl;
     City *ending = sender;
    // cout<<ending->cityName<<endl;
     sender = starting;
@@ -322,5 +351,5 @@ void CommunicationNetwork::deleteMessage(){
 
     }
     cout<<"Message has been deleted"<<endl;
-    
+
 }
